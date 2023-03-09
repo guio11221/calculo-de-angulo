@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Calculadora de triângulo</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+
+      h1 {
+        margin-bottom: 20px;
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 30px;
+      }
+
+      label {
+        margin-right: 10px;
+      }
+
+      input {
+        padding: 5px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        margin-right: 10px;
+      }
+
+      button {
+        padding: 5px 10px;
+        border-radius: 5px;
+        border: none;
+        background-color: #0077cc;
+        color: #fff;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #005fa3;
+      }
+
+      canvas {
+        max-width: 500px;
+        margin: 0 auto;
+      }
+        svg {
+            width: 200px;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Calculadora de triângulo</h1>
+    <form>
+        <label for="base">Base:</label>
+        <input type="number" id="base" name="base">
+        <label for="altura">Altura:</label>
+        <input type="number" id="altura" name="altura">
+        <button type="submit">Calcular</button>
+    </form>
+    <canvas id="myChart"></canvas>
+    <svg id="triangle"></svg>
+
+<script>
+    const form = document.querySelector('form');
+const canvas = document.getElementById('myChart');
+const ctx = canvas.getContext('2d');
+const svg = document.getElementById('triangle');
+
+form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const base = parseInt(document.getElementById('base').value);
+    const altura = parseInt(document.getElementById('altura').value);
+    const area = (base * altura) / 2;
+
+    const data = {
+        labels: ['Área'],
+        datasets: [{
+            label: 'Triângulo',
+            data: [area],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+            ],
+            borderWidth: 1
+        }]
+    };
+
+    const options = {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    };
+
+    const chart = new Chart(ctx, {
+        type: 'bar',
+        data: data,
+        options: options
+    });
+
+    const triangle = `<polygon points="${base/2},${altura/2} 0,${altura} ${base}, ${altura}" style="fill:lime;stroke:purple;stroke-width:1" />`;
+    svg.innerHTML = triangle;
+});
+
+</script>
+
+</body>
+</html>
